@@ -17,16 +17,20 @@ public class AreaCalculatorApplication {
 	 * @return
 	 */
 	static int calculateMaxArea(int[] heights) {
-		int maxArea = 0, index = 0, focuedIndex = 0;
+		int maxArea = 0, leftIndex = 0, index = 1;
 
 		while (index < heights.length) {
-			int currentArea = Math.min(heights[focuedIndex], heights[index]) * (index - focuedIndex);
+			// Calculates the area between left index and index using the min height of
+			// index and left index heights
+			int currentArea = Math.min(heights[leftIndex], heights[index]) * (index - leftIndex);
+			// If the current area is larger then set it as the max area
 			if (currentArea > maxArea) {
 				maxArea = currentArea;
 			}
-			// if current height is greater then move focus to current index
-			if (heights[focuedIndex] < heights[index]) {
-				focuedIndex = index;
+			// if the index height is greater than the left index height then update the
+			// left index
+			if (heights[leftIndex] < heights[index]) {
+				leftIndex = index;
 			}
 			index++;
 		}
