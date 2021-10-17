@@ -24,17 +24,16 @@ public class AreaCalculatorApplication {
 		int maxArea = 0, index = 0;
 
 		while (index < heights.size()) {
-			// Find max possible area for current
-			int currentValue = heights.get(index);
 			int currentIndex = index;
-			// find all appropriate values for current value and get the farthest index
+			int currentValue = heights.get(currentIndex);			
+			// find all values equal or larger than the current value and get the farthest index
 			OptionalInt indices = IntStream.range(0, heights.size())
 					.filter(i -> ((i != currentIndex) && (heights.get(i) >= currentValue)))
 					.map(i -> Math.abs(i - currentIndex)).max();
 			if (indices.isPresent()) {
 				int bestIndex = indices.getAsInt();
 				int currentArea = currentValue * bestIndex;
-				// If the current area is larger then set it as the max area
+				// If the current area is larger the max area then set it as the max area
 				if (currentArea > maxArea) {
 					maxArea = currentArea;
 				}
