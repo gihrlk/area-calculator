@@ -1,12 +1,16 @@
 package com.connective.challenge;
 
+import java.util.List;
+import java.util.OptionalInt;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class AreaCalculatorApplication {
 
 	public static void main(String[] args) {
 		System.out.println("Input: height = " + args[0]);
-		int[] heights = getInputHeights(args[0]);
+		List<Integer> heights = getInputHeights(args[0]);
 		System.out.println("Output: " + calculateMaxArea(heights));
 	}
 
@@ -16,21 +20,24 @@ public class AreaCalculatorApplication {
 	 * @param heights
 	 * @return
 	 */
-	static int calculateMaxArea(int[] heights) {
-		int maxArea = 0, leftIndex = 0, index = 1;
+	static int calculateMaxArea(List<Integer> heights) {
+		int maxArea = 0, index = 0;
 
-		while (index < heights.length) {
-			// Calculates the area between left index and index using the min height of
-			// index and left index heights
-			int currentArea = Math.min(heights[leftIndex], heights[index]) * (index - leftIndex);
-			// If the current area is larger then set it as the max area
-			if (currentArea > maxArea) {
-				maxArea = currentArea;
-			}
-			// if the index height is greater than the left index height then update the
-			// left index
-			if (heights[leftIndex] < heights[index]) {
-				leftIndex = index;
+		while (index < heights.size()) {
+			// Find max possible area for current
+			int currentValue = heights.get(index);
+			int currentIndex = index;
+			// find all appropriate values for current value and get the farthest index
+			OptionalInt indices = IntStream.range(0, heights.size())
+					.filter(i -> ((i != currentIndex) && (heights.get(i) >= currentValue)))
+					.map(i -> Math.abs(i - currentIndex)).max();
+			if (indices.isPresent()) {
+				int bestIndex = indices.getAsInt();
+				int currentArea = currentValue * bestIndex;
+				// If the current area is larger then set it as the max area
+				if (currentArea > maxArea) {
+					maxArea = currentArea;
+				}
 			}
 			index++;
 		}
@@ -39,15 +46,16 @@ public class AreaCalculatorApplication {
 	}
 
 	/**
-	 * Returns int array from a string
+	 * Converts input string to Integer List
 	 * 
 	 * @param inputString
 	 * @return
 	 */
-	static int[] getInputHeights(String inputString) {
+	static List<Integer> getInputHeights(String inputString) {
 		// Remove open/close brackets and split the input string
 		String[] splits = inputString.replace("[", "").replace("]", "").split(",");
-		int[] heights = Stream.of(splits).map(String::trim).mapToInt(Integer::parseInt).toArray();
-		return heights;
+		List<Integer> inputNumbers = Stream.of(splits).map(String::trim).mapToInt(Integer::parseInt).boxed()
+				.collect(Collectors.toList());
+		return inputNumbers;
 	}
 }

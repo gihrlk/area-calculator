@@ -8,6 +8,6 @@ You need Java 1.8+ to run the application.
 
 A compiled jar file is available in target directory. Run the application jar file with two arguments.<br>
 Argument 1: Input numbers<br>
-Argument 2: Traget value
+Argument 2: Target value
 ##### java -jar target\AreaCalculator.jar [2,7,11,15]
 

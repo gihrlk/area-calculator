@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ public class AreaCalculatorApplicationTest {
 
 	@Test
 	void test_whenMaxAreaIsInRight() {
-		int[] heights = new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 };
+		List<Integer> heights = Arrays.asList(1, 8, 6, 2, 5, 4, 8, 3, 7);
 		int expected = 49;
 		int actual = AreaCalculatorApplication.calculateMaxArea(heights);
 		assertEquals(expected, actual);
@@ -19,7 +20,7 @@ public class AreaCalculatorApplicationTest {
 
 	@Test
 	void test_whenMaxAreaIsInLeft() {
-		int[] heights = new int[] { 4, 2, 3, 2, 6, 4, 6 };
+		List<Integer> heights = Arrays.asList(4,3,2,1,4);
 		int expected = 16;
 		int actual = AreaCalculatorApplication.calculateMaxArea(heights);
 		assertEquals(expected, actual);
@@ -28,9 +29,9 @@ public class AreaCalculatorApplicationTest {
 	@Test
 	void test_inputHeights() {
 		String inputString = "[1, 8, 6, 2, 5, 4, 8, 3, 7]";
-		int[] expected = new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 };
-		int[] actual = AreaCalculatorApplication.getInputHeights(inputString);
-		assertTrue(Arrays.equals(expected, actual));
+		List<Integer> expected = Arrays.asList(1, 8, 6, 2, 5, 4, 8, 3, 7);
+		List<Integer> actual = AreaCalculatorApplication.getInputHeights(inputString);
+		assertTrue(expected.equals(actual));
 	}
 
 }
